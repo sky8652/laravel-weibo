@@ -15,7 +15,8 @@
  * Or require js and css assets:
  * Admin::css('/packages/prettydocs/css/styles.css');
  * Admin::js('/packages/prettydocs/js/main.js');
- *
+ * 在这个页面可以扩展或者移除你的组件，或者引入前端资源
  */
+
 
 Encore\Admin\Form::forget(['map', 'editor']);
