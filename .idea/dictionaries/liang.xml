@@ -2,6 +2,8 @@
   <dictionary name="liang">
     <words>
       <w>findcat</w>
+      <w>mailtrap</w>
+      <w>smtp</w>
     </words>
   </dictionary>
 </component>
