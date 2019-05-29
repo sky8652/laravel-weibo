@@ -1,10 +1,16 @@
-<!-- 引入父视图-->
 @extends('layouts.default')
 
-<!-- 传递title的值为“主页”-->
-@section('title', '主页')
-
-<!-- 传递content的值为“<h1>主页</h1>”-->
 @section('content')
-    <h1>主页</h1>
+    <div class="jumbotron">
+        <h1>Hello Laravel</h1>
+        <p class="lead">
+            你现在所看到的是 <a href="https://findcat.cn">梁桂锋 -Laravel练习</a> 的示例项目主页。
+        </p>
+        <p>
+            一切，将从这里开始。
+        </p>
+        <p>
+            <a class="btn btn-lg btn-success" href="#" role="button">现在注册</a>
+        </p>
+    </div>
 @stop
