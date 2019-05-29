@@ -38,6 +38,7 @@ return [
     | been setup for each driver as an example of the required options.
     |
     | Supported Drivers: "local", "ftp", "sftp", "s3", "rackspace"
+    | laravel-admin的存储位置设置
     |
     */
 
@@ -64,6 +65,13 @@ return [
             'url' => env('AWS_URL'),
         ],
 
+        //后台的存储位置设置
+        'admin' => [
+            'driver'     => 'local',
+            'root'       => public_path('upload'),
+            'visibility' => 'public',
+            'url' => env('APP_URL').'/public/upload/',
+        ],
     ],
 
 ];
