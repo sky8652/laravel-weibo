@@ -1,7 +1,7 @@
 // 引入Bootstrap
 @import '~bootstrap/scss/bootstrap';
 
-//添加新的样式
+//对整体的样式进行优化
 body {
   font-size: 14px;
   font-weight: normal;
@@ -9,4 +9,30 @@ body {
 
 nav.navbar.navbar-expand-lg {
   margin-bottom: 20px;
+}
+
+//对底部试图进行优化
+footer {
+  margin-top: 45px;
+  padding-top: 5px;
+  border-top: 1px solid #eaeaea;
+  color: #777;
+  font-size: 13px;
+  font-weight: bold;
+
+  a {
+    color: #555;
+  }
+
+  a:hover {
+    color: #222;
+  }
+
+  small {
+    float: left;
+  }
+  img.brand-icon {
+    width: 17px;
+    height: 17px;
+  }
 }
