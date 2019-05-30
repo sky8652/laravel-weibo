@@ -18,3 +18,6 @@ Route::get('/about', 'StaticPagesController@about')->name('about');
 
 //登录(laravel兼容这种写法，和/signup并无区别)
 Route::get('signup', 'UsersController@create')->name('signup');
+
+//用户注册
+Route::resource('users', 'UsersController');
