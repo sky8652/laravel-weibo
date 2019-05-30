@@ -13,14 +13,23 @@ class UsersController extends Controller
     //过滤未登录用户操作用户资料，将未登录用户重定向到登录界面
     public function __construct()
     {
+        //公开权限，允许游客访问的路由
         $this->middleware('auth', [
-            'except' => ['show', 'create', 'store']
+            'except' => ['show', 'create', 'store', 'index']
         ]);
 
         //只让未登录用户访问登录界面
         $this->middleware('guest', [
             'only' => ['create']
         ]);
+    }
+
+    //列出所有用户
+    public function index()
+    {
+        //指定每页生成的数据数量为 10 条
+        $users = User::paginate(10);
+        return view('users.index', compact('users'));
     }
 
     //用户注册方法
