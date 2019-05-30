@@ -46,4 +46,32 @@ class UsersController extends Controller
         //返回信息到路由，在前端展示
         return redirect()->route('users.show', [$user]);
     }
+
+    //用户编辑个人资料页面
+    public function edit(User $user)
+    {
+        return view('users.edit', compact('user'));
+    }
+
+    //用户更新的信息保存到数据库
+    public function update(User $user, Request $request)
+    {
+        $this->validate($request, [
+            'name' => 'required|max:50',
+            'password' => 'nullable|confirmed|min:6'
+        ]);
+
+        //允许用户不填写密码字段，这样就采取用户之前的密码放入数据库
+        $data = [];
+        $data['name'] = $request->name;
+        if ($request->password) {
+            $data['password'] = bcrypt($request->password);
+        }
+
+        $user->update($data);
+
+        session()->flash('success', '个人资料更新成功！');
+
+        return redirect()->route('users.show', $user);
+    }
 }
