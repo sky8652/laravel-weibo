@@ -71,14 +71,6 @@ class UsersController extends Controller
         return redirect()->route('users.show', [$user]);
     }
 
-    //用户退出登录，清楚session
-    public function destroy()
-    {
-        Auth::logout();
-        session()->flash('success', '您已成功退出！');
-        return redirect('login');
-    }
-
     //用户修改个人资料
     public function edit(User $user)
     {
@@ -107,7 +99,14 @@ class UsersController extends Controller
         return redirect()->route('users.show', $user->id);
     }
 
-
+    //删除用户
+    public function destroy(User $user)
+    {
+        $this->authorize('destroy', $user);
+        $user->delete();
+        session()->flash('success', '成功删除用户！');
+        return back();
+    }
 
 
 }

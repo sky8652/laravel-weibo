@@ -14,7 +14,7 @@ $factory->define(User::class, function (Faker $faker) {
         //验证邮箱日期
         'email_verified_at' => now(),
         //密码
-        'password' => '$2y$10$TKh8H1.PfQx37YgCzwiKb.KjNyWgaHb9cbcoQgdIVFlYg7B77UdFm', // secret
+        'password' => '$2y$10$HBu3tKorjSwhj/2kcZm/Luzvxo2Zj3DLv7GjYswHsItzUUtdm/53q', // 123456
         //是否记住密码
         'remember_token' => Str::random(10),
         //注册日期
