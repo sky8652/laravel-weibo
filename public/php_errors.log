@@ -1,0 +1,1 @@
+[30-May-2019 09:25:30 UTC] PHP Fatal error:  Cannot redeclare App\Http\Controllers\UsersController::show() in /var/www/html/laravel-test/app/Http/Controllers/UsersController.php on line 139

@@ -40,12 +40,6 @@ class UsersController extends Controller
         return view('users.create');
     }
 
-    //用户注册页面
-    public function show(User $user)
-    {
-        return view('users.show', compact('user'));
-    }
-
     //处理表单数据的提交验证，添加邮箱验证功能
     public function store(Request $request)
     {
@@ -133,6 +127,15 @@ class UsersController extends Controller
         Auth::login($user);
         session()->flash('success', '恭喜你，激活成功！');
         return redirect()->route('users.show', [$user]);
+    }
+
+    //文章读取，倒序展示
+    public function show(User $user)
+    {
+        $statuses = $user->statuses()
+            ->orderBy('created_at', 'desc')
+            ->paginate(10);
+        return view('users.show', compact('user', 'statuses'));
     }
 
 
