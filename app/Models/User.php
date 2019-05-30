@@ -3,6 +3,7 @@
 //命名空间
 namespace App\Models;
 
+use Illuminate\Support\Str;
 //消息通知相关功能引用
 use Illuminate\Notifications\Notifiable;
 //邮箱验证功能
@@ -34,6 +35,16 @@ class User extends Authenticatable
     protected $hidden = [
         'password', 'remember_token',
     ];
+
+    //监听模型被创建之前的事件
+    public static function boot()
+    {
+        parent::boot();
+
+        static::creating(function ($user) {
+            $user->activation_token = Str::random(10);
+        });
+    }
 
     //邮箱验证的时间
     protected $casts = [

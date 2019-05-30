@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+//引入邮箱类
+use Mail;
 use Auth;
 //引用模型，否则找不到数据
 use App\Models\User;
@@ -15,7 +17,7 @@ class UsersController extends Controller
     {
         //公开权限，允许游客访问的路由
         $this->middleware('auth', [
-            'except' => ['show', 'create', 'store', 'index']
+            'except' => ['show', 'create', 'store', 'index', 'confirmEmail']
         ]);
 
         //只让未登录用户访问登录界面
@@ -44,31 +46,24 @@ class UsersController extends Controller
         return view('users.show', compact('user'));
     }
 
-    //处理表单数据的提交验证
+    //处理表单数据的提交验证，添加邮箱验证功能
     public function store(Request $request)
     {
-        //表单输入验证的具体规则
         $this->validate($request, [
             'name' => 'required|max:50',
             'email' => 'required|email|unique:users|max:255',
             'password' => 'required|confirmed|min:6'
         ]);
 
-        //验证通过将信息插入数据库
         $user = User::create([
             'name' => $request->name,
             'email' => $request->email,
             'password' => bcrypt($request->password),
         ]);
 
-        //用户注册成功后自动登录
-        Auth::login($user);
-
-        //在页面顶部位置显示注册成功的提示信息
-        session()->flash('success', '欢迎，您将在这里开启一段新的旅程~');
-
-        //返回信息到路由，在前端展示
-        return redirect()->route('users.show', [$user]);
+        $this->sendEmailConfirmationTo($user);
+        session()->flash('success', '验证邮件已发送到你的注册邮箱上，请注意查收。');
+        return redirect('/');
     }
 
     //用户修改个人资料
@@ -106,6 +101,35 @@ class UsersController extends Controller
         $user->delete();
         session()->flash('success', '成功删除用户！');
         return back();
+    }
+
+    //用户邮箱激活账户
+    protected function sendEmailConfirmationTo($user)
+    {
+        $view = 'emails.confirm';
+        $data = compact('user');
+        $from = 'summer@example.com';
+        $name = 'Summer';
+        $to = $user->email;
+        $subject = "感谢注册 Weibo 应用！请确认你的邮箱。";
+
+        Mail::send($view, $data, function ($message) use ($from, $name, $to, $subject) {
+            $message->from($from, $name)->to($to)->subject($subject);
+        });
+    }
+
+    //处理用户点击激活邮件返回的数据
+    public function confirmEmail($token)
+    {
+        $user = User::where('activation_token', $token)->firstOrFail();
+
+        $user->activated = true;
+        $user->activation_token = null;
+        $user->save();
+
+        Auth::login($user);
+        session()->flash('success', '恭喜你，激活成功！');
+        return redirect()->route('users.show', [$user]);
     }
 
 
