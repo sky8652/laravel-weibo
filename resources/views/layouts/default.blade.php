@@ -10,6 +10,10 @@
 @include('layouts._header')
 
 <div class="container">
+
+    {{--消息提醒视图   --}}
+    @include('shared._messages')
+
     @yield('content')
 
     <!--引入底部试图定义-->
