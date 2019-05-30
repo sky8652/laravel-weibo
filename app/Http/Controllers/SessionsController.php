@@ -21,8 +21,8 @@ class SessionsController extends Controller
             'password' => 'required'
         ]);
 
-        //对用户的账户密码进行校验
-        if (Auth::attempt($credentials)) {
+        //对用户的账户密码进行校验，并添加记住我
+        if (Auth::attempt($credentials, $request->has('remember'))) {
 
             // 登录成功后的相关操作
             session()->flash('success', '欢迎回来！');
@@ -33,7 +33,15 @@ class SessionsController extends Controller
             // 登录失败后的相关操作
             session()->flash('danger', '很抱歉，您的邮箱和密码不匹配');
             return redirect()->back()->withInput();
-            
+
         }
+    }
+
+    //用户点击退出重定向到登录页面，并返回友好提示
+    public function destroy()
+    {
+        Auth::logout();
+        session()->flash('success', '您已成功退出！');
+        return redirect('login');
     }
 }

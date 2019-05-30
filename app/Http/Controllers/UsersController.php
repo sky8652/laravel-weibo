@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use Auth;
 //引用模型，否则找不到数据
 use App\Models\User;
 //引用Request请求
@@ -38,9 +39,10 @@ class UsersController extends Controller
             'password' => bcrypt($request->password),
         ]);
 
+        //用户注册成功后自动登录
+        Auth::login($user);
         //在页面顶部位置显示注册成功的提示信息
         session()->flash('success', '欢迎，您将在这里开启一段新的旅程~');
-
         //返回信息到路由，在前端展示
         return redirect()->route('users.show', [$user]);
     }
